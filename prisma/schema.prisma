@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  books     Book[]
+}
+
+model Book {
+  id          String    @id @default(cuid())
+  title       String
+  author      String?
+  coverImage  String?
+  description String?
+  publishedAt String?
+  isbn        String?
+  authorReading String?
+  review      String?
+  readAt      DateTime?
+  status      String    @default("want")
+  rating      Float?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+  tags   BookTag[]
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+
+  books BookTag[]
+}
+
+model BookTag {
+  bookId String
+  tagId  String
+
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([bookId, tagId])
+}
