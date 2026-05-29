@@ -26,17 +26,15 @@ export default function BookCard({ book }: { book: Book }) {
             />
           )}
         </div>
-        <div className="p-3 space-y-1.5">
+        <div className="p-3 flex flex-col gap-1.5">
           <StatusBadge status={book.status as any} />
-          <p className="text-sm font-medium text-gray-900 line-clamp-2 leading-tight">
+          <p className="text-sm font-medium text-gray-900 line-clamp-2 leading-tight min-h-[2.5rem]">
             {book.title}
           </p>
-          {book.author && (
-            <p className="text-xs text-gray-500 truncate">{book.author}</p>
-          )}
-          {book.rating && (
-            <StarRating value={book.rating} readOnly size="sm" />
-          )}
+          <p className="text-xs text-gray-500 truncate min-h-[1rem]">
+            {book.author ?? ""}
+          </p>
+          <StarRating value={book.rating} readOnly size="sm" />
         </div>
       </div>
     </Link>
